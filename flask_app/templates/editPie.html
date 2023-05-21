@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyPie Derby</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+    <nav class="d-flex justify-content-between p-3 align-items-center">
+        <h1>Welcome {{loggedUser.first_name}} {{loggedUser.last_name}}</h1>
+        <a href="/" class="btn btn-primary">Dashboard</a>
+        <a class="btn btn-danger" href="/logout">Logout</a>
+    </nav>
+    
+    <form class="w-50 m-auto p-5 border rounded  bg-light  mt-3" action="/update/pie/{{pie.id}}" method="post">
+        <h2 class="text-center">Edit pie {{pie.name}}</h2>
+        {% with messages = get_flashed_messages(category_filter=["namePie"]) %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="text-danger text-center">{{message}}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="form-row">
+            <label  for="name">Name:</label>
+            <input type="text" value="{{pie.name}}" class="form-control" name="name">
+        </div>
+        {% with messages = get_flashed_messages(category_filter=["fillingPie"]) %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="text-danger text-center">{{message}}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="form-row">
+            <label  for="filling">Filling:</label>
+            <input type="text" value="{{pie.filling}}" class="form-control" name="filling">
+        </div>
+        {% with messages = get_flashed_messages(category_filter=["crustPie"]) %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="text-danger text-center">{{message}}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="form-row">
+            <label  for="crust">Crust:</label>
+            <input type="text" value="{{pie.crust}}" class="form-control" name="crust">
+        </div>
+        <button class="mt-2 btn btn-success">Edit Pie</button>
+    </form>
+</body>
+</html>

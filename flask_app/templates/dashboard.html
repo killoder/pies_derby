@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyPie Derby</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <nav class="d-flex justify-content-between flex-end p-3 align-items-center">
+        <h1>Welcome {{loggedUser.first_name}} {{loggedUser.last_name}}</h1>
+        <a href="/derby" class="btn btn-warning">Pie Derby</a>
+        <a class="btn btn-danger" href="/logout">Logout</a>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col border m-auto bg-light p-5">
+                <h2 class="text-center">PyPies by {{loggedUser.first_name}} </h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pie in userPies %}
+                        <tr>
+                            <th scope="row">{{pie.name}}</th>
+                            <td>
+                                {% if loggedUser.id == pie.user_id %}
+                                <a href="/edit/pie/{{pie.id}}">Edit</a>
+                                <a href="/delete/pie/{{pie.id}}">Delete</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col p-5">
+                <form class="m-auto p-5 border rounded  bg-light" action="/create/pie" method="post">
+                    <h2 class="text-center">Add New PyPie</h2>
+
+                    <div class="form-row">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["namePie"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <div class="form-row">
+                        <label for="filling">Filling:</label>
+                        <input type="text" class="form-control" name="filling">
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["fillingPie"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <div class="form-row">
+                        <label for="crust">Crust:</label>
+                        <input type="text" class="form-control" name="crust">
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["crustPie"]) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p class="text-danger text-center">{{message}}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <button class="mt-2 btn btn-success">Add Pie</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
